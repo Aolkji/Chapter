@@ -79,11 +79,6 @@ flask run                     # starts the dev server at localhost:5000
 * Database: run the initial migration to create the `Users`, `Books`, `Reviews`, and `Discussions` tables.
 * Wiring: route blueprints (`auth_routes.py`, `book_routes.py`, `review_routes.py`, `discussion_routes.py`) are still being built out and are not all registered in `app.py` yet.
 
-## Documentation
-
-* Architecture: request paths, backend layout, database schema, recursive discussion-tree logic
-* Roadmap: phase-by-phase plan (PoC → Prototype → Pilot → MVP → MDP)
-* AI Usage: where and how AI assistance was used
 
 ## Status
 
