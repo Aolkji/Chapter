@@ -8,17 +8,33 @@ Online book clubs currently have no dedicated platform to call home. Groups that
 
 ChapterChat solves this by combining structured book data (ratings, reviews) with asynchronous, threaded discussion — so members can catch up and contribute whenever they have time.
 
+
+
 Features
  Books : Add, edit, and delete books (title, author, genre, cover image), auto-populated via the Google Books API
+ 
  Reviews & Ratings : Users rate books (1–5 stars) and write reviews
+ 
  Discussions : Threaded, nested comment discussions per book
+ 
  Users : Register, log in, and manage a profile
+
+
+
+ 
 Tech Stack
  Backend: Flask
+ 
  Database:	SQLite 
+ 
  ORM:	SQLAlchemy
+ 
  Templating:	Jinja2
+ 
  Frontend: 	HTML, CSS, JavaScript
+ 
  Authentication: Flask-Login
+ 
  External API:	Google Books API
+ 
  
