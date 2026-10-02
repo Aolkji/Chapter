@@ -1,40 +1,66 @@
 ChapterChat
 
-A web application for online book clubs: track what you're reading, rate and review books, and hold threaded discussions with your club members on your own schedule, without needing everyone online at the same time.
+A book club platform built around asynchronous discussion.
 
-The Problem
+ChapterChat is built on the idea that book clubs shouldn't need to be online at the same time to talk about what they're reading. Where the usual workaround is a live call or a chat app's disappearing message feed, ChapterChat gives a book club one dedicated, asynchronous space: track what you're reading, rate and review it, and hold ongoing, threaded discussions that anyone can catch up on and contribute to whenever they have time — not just during a scheduled window.
 
-Online book clubs currently have no dedicated platform to call home. Groups that want to read and discuss books together are forced into being online at the same time, relying on live chats or scheduled calls just to talk about what they've read. This doesn't work for people with different schedules, time zones, or reading paces, forcing them to miss the conversation entirely.
-
-ChapterChat solves this by combining structured book data (ratings, reviews) with asynchronous, threaded discussion — so members can catch up and contribute whenever they have time.
-
-
-
+Inspirations
+TBD...
 Features
- Books : Add, edit, and delete books (title, author, genre, cover image), auto-populated via the Google Books API
- 
- Reviews & Ratings : Users rate books (1–5 stars) and write reviews
- 
- Discussions : Threaded, nested comment discussions per book
- 
- Users : Register, log in, and manage a profile
-
-
-
- 
+Books — add, edit, and delete books (title, author, genre, cover image), with details auto-populated via the Google Books API
+Reviews & Ratings — rate a book 1–5 stars and leave a written review
+Discussions — threaded, nested comment discussions per book, so replies stay organized under the conversation they belong to
+Users — register, log in, and manage a profile
+Planned (post-MVP)
+Search/filter the book catalog by genre or rating
+Expanded profile pages (reading history, review activity)
 Tech Stack
- Backend: Flask
- 
- Database:	SQLite 
- 
- ORM:	SQLAlchemy
- 
- Templating:	Jinja2
- 
- Frontend: 	HTML, CSS, JavaScript
- 
- Authentication: Flask-Login
- 
- External API:	Google Books API
- 
+Backend
+Python
+Flask (web framework)
+Database
+SQLite (development)
+PostgreSQL (optional, for deployment)
+SQLAlchemy (ORM for all backend reads, writes & business logic)
+Frontend
+HTML / CSS / JavaScript
+Jinja2 (Flask's server-side templating)
+Auth
+Flask-Login (session management)
+Werkzeug (password hashing)
+External API
+Google Books API (auto-populates title, author, genre, and cover image when a book is added)
+Deployment
+Render (free tier; chosen over Heroku/Firebase/Netlify/Vercel since this is a Python/Flask app with a relational database, not a static site or Google-backend service)
+Architecture
+
+Flask routes handle all reads, writes, and business logic through SQLAlchemy. Four related tables — Users, Books, Reviews, Discussions — are linked by foreign keys, with Discussions using a self-referencing foreign key (parent_id) to support nested replies. The backend recursively reconstructs that flat comment data into a nested tree before Jinja2 renders it as HTML.
+
+Setup
+
+Prerequisites: Python 3.11+, pip, and Git.
+
+git clone https://github.com/Aolkiji/ChapterChat.git
+cd ChapterChat
+Backend (Flask)
+python -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+flask run                     # starts the dev server at localhost:5000
+
+Not set up yet (these steps will be added here as they land):
+
+Environment variables: .env will need a SECRET_KEY, DATABASE_URL, and a GOOGLE_BOOKS_API_KEY. .env files are gitignored; never commit them.
+Database: run the initial migration to create the Users, Books, Reviews, and Discussions tables.
+Wiring: route blueprints (auth_routes.py, book_routes.py, review_routes.py, discussion_routes.py) are still being built out and are not all registered in app.py yet.
+Documentation
+Architecture: request paths, backend layout, database schema, recursive discussion-tree logic
+Roadmap: phase-by-phase plan (PoC → Prototype → Pilot → MVP → MDP)
+AI Usage: where and how AI assistance was used
+Status
+
+Early build — database schema and core CRUD for Books are in progress, user authentication is being scaffolded next. Frontend is HTML/CSS/JS served through Jinja2 templates; no styling pass yet.
+
+Contributors
+Emmanuel Athias
  
