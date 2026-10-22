@@ -68,17 +68,19 @@ cd ChapterChat
 
 ```
 python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-flask run                     # starts the dev server at localhost:5000
+venv\Scripts\activate                       # Mac/Linux: source venv/bin/activate
+python -m pip install -r requirements.txt
+python backend/app.py                       # starts the dev server at http://127.0.0.1:5000
 ```
+
+**Environment variables:** create a `.env` file in the project root with a `SECRET_KEY`. `DATABASE_URL` is optional; if it's not set, the app uses a local SQLite file. `.env` files are gitignored; never commit them.
+
+**Database:** the `Users`, `Books`, `Reviews`, and `Discussions` tables are created automatically the first time the app runs.
 
 **Not set up yet** (these steps will be added here as they land):
 
-* Environment variables: `.env` will need a `SECRET_KEY`, `DATABASE_URL`, and a `GOOGLE_BOOKS_API_KEY`. `.env` files are gitignored; never commit them.
-* Database: run the initial migration to create the `Users`, `Books`, `Reviews`, and `Discussions` tables.
-* Wiring: route blueprints (`auth_routes.py`, `book_routes.py`, `review_routes.py`, `discussion_routes.py`) are still being built out and are not all registered in `app.py` yet.
-
+* Google Books API: `.env` will need a `GOOGLE_BOOKS_API_KEY`.
+* Wiring: route blueprints (`book_routes.py`, `auth_routes.py`, `review_routes.py`, `discussion_routes.py`) are still being built out and are not all registered in `app.py` yet.
 
 ## Status
 
