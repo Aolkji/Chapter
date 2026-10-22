@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}ChapterChat · A Chapter at a Time{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <p class="eyebrow">Your book club, on your schedule</p>
+        <h1>Read together,<br>talk whenever.</h1>
+        <p class="hero-text">
+            Track what your club is reading, rate and review books, and keep the
+            conversation going in threaded discussions anyone can catch up on.
+        </p>
+        <div class="hero-actions">
+            <a href="#" class="btn">Add a book</a>
+            <a href="#books" class="btn btn-outline">Browse books</a>
+        </div>
+    </div>
+</section>
+
+<!-- Book list -->
+<section id="books" class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Books</h2>
+            <span class="count">{{ books|length }} {{ "book" if books|length == 1 else "books" }}</span>
+        </div>
+
+        {% if books %}
+            <div class="book-grid">
+                {% for book in books %}
+                    <article class="book-card">
+                        <div class="cover">
+                            {% if book.cover_image %}
+                                <img src="{{ book.cover_image }}" alt="Cover of {{ book.title }}">
+                            {% else %}
+                                <span class="cover-placeholder">{{ book.title[0] }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="book-info">
+                            {% if book.genre %}
+                                <span class="tag">{{ book.genre }}</span>
+                            {% endif %}
+                            <h3>{{ book.title }}</h3>
+                            <p class="author">{{ book.author }}</p>
+
+                            {% set avg = book.average_rating() %}
+                            <div class="rating">
+                                {% if avg %}
+                                    <span class="stars">
+                                        {% for i in range(1, 6) %}{{ "★" if i <= avg|round|int else "☆" }}{% endfor %}
+                                    </span>
+                                    <span class="muted">{{ avg }} ({{ book.reviews|length }})</span>
+                                {% else %}
+                                    <span class="muted">No ratings yet</span>
+                                {% endif %}
+                            </div>
+
+                            <p class="meta muted">
+                                💬 {{ book.discussions|length }}
+                                {{ "comment" if book.discussions|length == 1 else "comments" }}
+                            </p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p class="empty-icon">📚</p>
+                <h3>No books yet</h3>
+                <p class="muted">Add the first book to get your club started.</p>
+                <a href="#" class="btn">Add a book</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- How it works -->
+<section class="section section-alt">
+    <div class="container">
+        <h2 class="center">How it works</h2>
+        <div class="steps">
+            <div class="step">
+                <span class="step-num">1</span>
+                <h3>Add a book</h3>
+                <p class="muted">Search a title and the details fill in automatically.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <h3>Rate &amp; review</h3>
+                <p class="muted">Give it 1–5 stars and share what you thought.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <h3>Join the thread</h3>
+                <p class="muted">Reply to your club in threaded discussions, whenever you have time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
