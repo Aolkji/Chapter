@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} · ChapterChat{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <a href="{{ url_for('main.index') }}" class="back-link">← All books</a>
+
+        <div class="book-detail">
+            <div class="cover detail-cover">
+                {% if book.cover_image %}
+                    <img src="{{ book.cover_image }}" alt="Cover of {{ book.title }}">
+                {% else %}
+                    <span class="cover-placeholder">{{ book.title[0] }}</span>
+                {% endif %}
+            </div>
+
+            <div class="detail-info">
+                {% if book.genre %}
+                    <span class="tag">{{ book.genre }}</span>
+                {% endif %}
+                <h1>{{ book.title }}</h1>
+                <p class="author detail-author">by {{ book.author }}</p>
+
+                {% set avg = book.average_rating() %}
+                <div class="rating">
+                    {% if avg %}
+                        <span class="stars">
+                            {% for i in range(1, 6) %}{{ "★" if i <= avg|round|int else "☆" }}{% endfor %}
+                        </span>
+                        <span class="muted">{{ avg }} from {{ book.reviews|length }} {{ "review" if book.reviews|length == 1 else "reviews" }}</span>
+                    {% else %}
+                        <span class="muted">No ratings yet</span>
+                    {% endif %}
+                </div>
+
+                <p class="muted added-on">Added {{ book.created_at.strftime("%B %d, %Y") }}</p>
+
+                <div class="detail-actions">
+                    <a href="{{ url_for('books.edit_book', book_id=book.id) }}" class="btn btn-outline">Edit</a>
+                    <form method="POST" action="{{ url_for('books.delete_book', book_id=book.id) }}"
+                          onsubmit="return confirm('Delete this book? Its reviews and discussions will be deleted too.');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholders for later phases -->
+        <div class="detail-sections">
+            <div class="panel">
+                <h2>Reviews</h2>
+                <p class="muted">Reviews are coming in the Pilot phase.</p>
+            </div>
+            <div class="panel">
+                <h2>Discussion</h2>
+                <p class="muted">Threaded discussions are coming in the MVP phase.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
