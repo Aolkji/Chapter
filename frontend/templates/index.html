@@ -14,7 +14,7 @@
             conversation going in threaded discussions anyone can catch up on.
         </p>
         <div class="hero-actions">
-            <a href="#" class="btn">Add a book</a>
+            <a href= "{{ url_for('books.add_book') }}" class="btn">Add a book</a>
             <a href="#books" class="btn btn-outline">Browse books</a>
         </div>
     </div>
@@ -31,7 +31,7 @@
         {% if books %}
             <div class="book-grid">
                 {% for book in books %}
-                    <article class="book-card">
+                    <a href="{{ url_for('books.book_detail', book_id=book.id) }}" class="book-card">
                         <div class="cover">
                             {% if book.cover_image %}
                                 <img src="{{ book.cover_image }}" alt="Cover of {{ book.title }}">
@@ -64,7 +64,7 @@
                                 {{ "comment" if book.discussions|length == 1 else "comments" }}
                             </p>
                         </div>
-                    </article>
+                    </a>
                 {% endfor %}
             </div>
         {% else %}

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from models import db
 from routes.main_routes import main
+from routes.books_routes import books
 
 # Load environment variables from .env file
 load_dotenv()
@@ -47,6 +48,7 @@ def create_app():
 
     # Register route blueprints (add auth, books, reviews, discussions here later)
     app.register_blueprint(main)
+    app.register_blueprint(books)
 
     return app
 
