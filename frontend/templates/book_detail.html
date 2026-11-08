@@ -36,7 +36,8 @@
                 </div>
 
                 <p class="muted added-on">Added {{ book.created_at.strftime("%B %d, %Y") }}</p>
-
+                
+                {% if current_user.is_authenticated %}
                 <div class="detail-actions">
                     <a href="{{ url_for('books.edit_book', book_id=book.id) }}" class="btn btn-outline">Edit</a>
                     <form method="POST" action="{{ url_for('books.delete_book', book_id=book.id) }}"
@@ -46,6 +47,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+
 
         <!-- Placeholders for later phases -->
         <div class="detail-sections">

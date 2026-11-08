@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required
 
 from models import db, Book
 
@@ -25,6 +26,7 @@ def read_book_form():
 
 # CREATE: show the form (GET) and save a new book (POST)
 @books.route("/add", methods=["GET", "POST"])
+@login_required
 def add_book():
     if request.method == "POST":
         data, errors = read_book_form()
@@ -54,6 +56,7 @@ def book_detail(book_id):
 
 # UPDATE: show the form filled in (GET) and save changes (POST)
 @books.route("/<int:book_id>/edit", methods=["GET", "POST"])
+@login_required
 def edit_book(book_id):
     book = db.get_or_404(Book, book_id)
 
@@ -78,6 +81,7 @@ def edit_book(book_id):
 
 # DELETE: POST only, so a link click or page visit can't delete a book
 @books.route("/<int:book_id>/delete", methods=["POST"])
+@login_required
 def delete_book(book_id):
     book = db.get_or_404(Book, book_id)
     title = book.title

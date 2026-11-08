@@ -475,3 +475,26 @@ button.btn {
 .panel h2 {
     font-size: 1.3rem;
 }
+
+/* ---------- Auth ---------- */
+.nav-user{
+    color: var(--muted);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 16px;
+    color: var(--muted);
+}
+
+.form-footer a {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.form-card label.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}

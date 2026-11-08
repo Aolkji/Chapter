@@ -1,10 +1,12 @@
 import os
 from flask import Flask
+from flask_login import LoginManager
 from dotenv import load_dotenv
 
-from models import db
+from models import db, User
 from routes.main_routes import main
 from routes.books_routes import books
+from routes.auth_routes import auth
 
 # Load environment variables from .env file
 load_dotenv()
@@ -42,13 +44,23 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+    login_manager = LoginManager()
+    login_manager.login_view = "auth.login"
+    login_manager.login_message = "Please log in to access this page."
+    login_manager.login_message_category = "error"
+    login_manager.init_app(app)
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return db.session.get(User, int(user_id))
+    
     with app.app_context():
         db.create_all()
 
     # Register route blueprints (add auth, books, reviews, discussions here later)
     app.register_blueprint(main)
     app.register_blueprint(books)
+    app.register_blueprint(auth)
 
     return app
 

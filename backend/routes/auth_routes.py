@@ -7,7 +7,7 @@ auth = Blueprint("auth", __name__)
 
 # REGISTER: show the form (GET) and create a new user (POST)
 
-auth.route("/register", methods=["GET", "POST"])
+@auth.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
         flash("You are already logged in.", "info")
@@ -15,7 +15,7 @@ def register():
 
     if request.method == "POST":
         username = request.form.get("username", "").strip()
-        email = request.form.get("email", "").strip()
+        email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "").strip()
         confirm = request.form.get("confirm", "").strip()
 
@@ -37,7 +37,7 @@ def register():
                 # Re-show the form with what they already typed but not the password
             return render_template("register.html", username=username, email=email)
 
-        user =User(username=username, email=email)
+        user = User(username=username, email=email)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
@@ -62,7 +62,7 @@ def login():
 
         user = User.query.filter_by(email=email).first()
 
-        if user or not user.check_password(password):
+        if not user or not user.check_password(password):
             flash("Invalid email or password.", "error")
             return render_template("login.html", email=email)
 
@@ -71,8 +71,8 @@ def login():
 
 
         next_page = request.args.get("next")
-        if next_page or next_page.startswith("/"):
-            redirect(next_page)
+        if next_page and next_page.startswith("/"):
+           return redirect(next_page)
         return redirect(url_for("main.index"))
 
     return render_template("login.html")
